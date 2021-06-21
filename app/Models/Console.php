@@ -9,6 +9,8 @@ class Console extends Model
 {
     use HasFactory;
 
+    protected $perPage = 10;
+
     public function games()
     {
         return $this->belongsToMany(Game::class);

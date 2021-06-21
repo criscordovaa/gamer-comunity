@@ -31,7 +31,7 @@ class GameFactory extends Factory
             "players_number" => $this->faker->numberBetween(1, 4),
             "presale" =>$this->faker->boolean(),
             "game_genre_id" =>GameGenre::all()->random()->id,
-            "price" =>$this->faker->randomFloat(2, 20, 100),
+            "price" =>$this->faker->randomFloat(2, 800, 2500),
             "release_date" =>$this->faker->dateTimeBetween("-1 year", "+5 years"),
             "company_id" =>Company::all()->random()->id,
         ];

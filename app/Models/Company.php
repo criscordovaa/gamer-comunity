@@ -9,6 +9,8 @@ class Company extends Model
 {
     use HasFactory;
 
+    protected $perPage = 10;
+
     public function games()
     {
         return $this->hasMany(Game::class);

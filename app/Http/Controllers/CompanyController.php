@@ -2,19 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Collection\CompanyCollection;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use \Exception;
 
 class CompanyController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $model = new Company();
+        ["page" => $page, "per_page" => $perPage] = $request->all(["page", "per_page"]);
+        $itemsPerPage = $perPage > $model->getPerPage() ? $perPage : $model->getPerPage();
+
+        $companies = $model->query();
+
+        $paginatedCompanies = $companies->paginate($itemsPerPage, ["*"], "page", $page);
+        $response = new CompanyCollection($paginatedCompanies);
+        return ($response)
+            ->response()
+            ->setStatusCode(Response::HTTP_OK);
     }
 
     /**
@@ -30,7 +45,7 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -41,7 +56,7 @@ class CompanyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Company  $company
+     * @param  \App\Models\Company $company
      * @return \Illuminate\Http\Response
      */
     public function show(Company $company)
@@ -52,7 +67,7 @@ class CompanyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Company  $company
+     * @param  \App\Models\Company $company
      * @return \Illuminate\Http\Response
      */
     public function edit(Company $company)
@@ -63,8 +78,8 @@ class CompanyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Company  $company
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\Company $company
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Company $company)
@@ -75,7 +90,7 @@ class CompanyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Company  $company
+     * @param  \App\Models\Company $company
      * @return \Illuminate\Http\Response
      */
     public function destroy(Company $company)

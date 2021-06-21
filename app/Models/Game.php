@@ -9,6 +9,14 @@ class Game extends Model
 {
     use HasFactory;
 
+    protected $perPage = 10;
+
+    public function getFullPriceAttribute()
+    {
+        $formattedNumber = number_format($this->price, "2");
+        return "$${formattedNumber} MXN";
+    }
+
     public function consoles()
     {
         return $this->belongsToMany(Console::class);

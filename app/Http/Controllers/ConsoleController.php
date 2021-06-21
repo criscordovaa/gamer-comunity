@@ -2,19 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Collection\ConsoleCollection;
 use App\Models\Console;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use \Exception;
 
 class ConsoleController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $model = new Console();
+        ["page" => $page, "per_page" => $perPage] = $request->all(["page", "per_page"]);
+        $itemsPerPage = $perPage > $model->getPerPage() ? $perPage : $model->getPerPage();
+
+        $console = $model->query();
+        $paginatedConsoles = $console->paginate($itemsPerPage, ["*"], "page", $page);
+        $response = new ConsoleCollection($paginatedConsoles);
+        return ($response)
+            ->response()
+            ->setStatusCode(Response::HTTP_OK);
     }
 
     /**

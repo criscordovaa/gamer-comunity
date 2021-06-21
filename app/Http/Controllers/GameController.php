@@ -2,19 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Collection\GameCollection;
 use App\Models\Game;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use \Exception;
 
 class GameController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $model = new Game();
+        ["page" => $page, "per_page" => $perPage] = $request->all(["page", "per_page"]);
+        $itemsPerPage = $perPage > $model->getPerPage() ? $perPage : $model->getPerPage();
+
+        $games = $model->query();
+        $paginatedGames = $games->paginate($itemsPerPage, ["*"], "page", $page);
+        $response = new GameCollection($paginatedGames);
+        return ($response)
+            ->response()
+            ->setStatusCode(Response::HTTP_OK);
     }
 
     /**

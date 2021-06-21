@@ -2,19 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Collection\ProfileCollection;
 use App\Models\Profile;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use \Exception;
 
 class ProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $model = new Profile();
+        ["page" => $page, "per_page" => $perPage] = $request->all(["page", "per_page"]);
+        $itemsPerPage = $perPage > $model->getPerPage() ? $perPage : $model->getPerPage();
+
+        $profiles = $model->query();
+
+        $paginatedProfiles = $profiles->paginate($itemsPerPage, ["*"], "page", $page);
+        $response = new ProfileCollection($paginatedProfiles);
+        return ($response)
+            ->response()
+            ->setStatusCode(Response::HTTP_OK);
+
+
     }
 
     /**
@@ -30,7 +47,7 @@ class ProfileController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -41,7 +58,7 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Profile  $profile
+     * @param  \App\Models\Profile $profile
      * @return \Illuminate\Http\Response
      */
     public function show(Profile $profile)
@@ -52,7 +69,7 @@ class ProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Profile  $profile
+     * @param  \App\Models\Profile $profile
      * @return \Illuminate\Http\Response
      */
     public function edit(Profile $profile)
@@ -63,8 +80,8 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Profile  $profile
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\Profile $profile
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Profile $profile)
@@ -75,7 +92,7 @@ class ProfileController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Profile  $profile
+     * @param  \App\Models\Profile $profile
      * @return \Illuminate\Http\Response
      */
     public function destroy(Profile $profile)
