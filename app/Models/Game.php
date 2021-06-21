@@ -18,4 +18,14 @@ class Game extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function genre()
+    {
+        return $this->belongsTo(GameGenre::class);
+    }
 }
