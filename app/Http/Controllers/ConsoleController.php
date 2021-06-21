@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\console;
+use App\Models\Console;
 use Illuminate\Http\Request;
 
 class ConsoleController extends Controller
@@ -41,10 +41,10 @@ class ConsoleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\console  $console
+     * @param  \App\Models\Console  $console
      * @return \Illuminate\Http\Response
      */
-    public function show(console $console)
+    public function show(Console $console)
     {
         //
     }
@@ -52,10 +52,10 @@ class ConsoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\console  $console
+     * @param  \App\Models\Console  $console
      * @return \Illuminate\Http\Response
      */
-    public function edit(console $console)
+    public function edit(Console $console)
     {
         //
     }
@@ -64,10 +64,10 @@ class ConsoleController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\console  $console
+     * @param  \App\Models\Console  $console
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, console $console)
+    public function update(Request $request, Console $console)
     {
         //
     }
@@ -75,10 +75,10 @@ class ConsoleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\console  $console
+     * @param  \App\Models\Console  $console
      * @return \Illuminate\Http\Response
      */
-    public function destroy(console $console)
+    public function destroy(Console $console)
     {
         //
     }

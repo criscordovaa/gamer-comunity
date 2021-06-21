@@ -5,7 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class console extends Model
+class Console extends Model
 {
     use HasFactory;
+
+    public function games()
+    {
+        return $this->belongsToMany(Game::class);
+    }
 }

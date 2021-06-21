@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class ConsoleGame extends Pivot
 {
     //
+    public $timestamps = false;
 }

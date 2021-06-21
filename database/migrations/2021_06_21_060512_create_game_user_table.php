@@ -19,7 +19,6 @@ class CreateGameUserTable extends Migration
             $table->unsignedBigInteger("game_id");
             $table->foreign("game_id")->references("id")->on("games");
             $table->enum("type", ["like_it", "have_it", "want_it"]);
-            $table->timestamps();
         });
     }
 
